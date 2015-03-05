@@ -1,6 +1,7 @@
 package org.lsh.util.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.context.annotation.Scope;
 
 import javax.validation.constraints.NotNull;
 

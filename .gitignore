@@ -12,5 +12,6 @@
 hs_err_pid*
 
 
-SA/.gradle
-SA/.idea/*
+*/out
+*/.idea
+*/.gradle

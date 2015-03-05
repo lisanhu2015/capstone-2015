@@ -16,8 +16,44 @@
 
     <context:component-scan base-package="org.lsh.controller"/>
     <context:component-scan base-package="org.lsh.service"/>
+    <context:component-scan base-package="org.lsh.test"/>
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
+    
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/student/**"/>
+            <bean class="org.lsh.security.PrivilegeInterceptor">
+                <constructor-arg index="0">
+                    <set>
+                        <value>Student</value>
+                    </set>
+                </constructor-arg>
+            </bean>
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/instructor/**"/>
+            <bean class="org.lsh.security.PrivilegeInterceptor">
+                <constructor-arg index="0">
+                    <set>
+                        <value>Instructor</value>
+                    </set>
+                </constructor-arg>
+            </bean>
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/officer/**"/>
+            <bean class="org.lsh.security.PrivilegeInterceptor">
+                <constructor-arg index="0">
+                    <set>
+                        <value>Officer</value>
+                    </set>
+                </constructor-arg>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"/>
@@ -28,9 +64,6 @@
     <bean id="hibernateUtils" class="org.lsh.util.db.HibernateUtils" scope="singleton"/>
 
     <bean id="errors" class="org.lsh.utils.MessageQueue" scope="session"/>
-
-
-
 
     <bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="username" value="root"/>

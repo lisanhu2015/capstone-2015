@@ -3,7 +3,6 @@ package org.lsh.controller.global;
 import org.lsh.service.LoginService;
 import org.lsh.util.model.LoginUser;
 import org.lsh.util.validator.LoginUserValidator;
-import org.lsh.utils.HelperFunctions;
 import org.lsh.utils.MessageQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -45,17 +42,9 @@ public class LoginController {
     private LoginService service;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(HttpServletRequest request,
-                        @ModelAttribute("login") @Valid
+    public String login(@ModelAttribute("login") @Valid
                         LoginUser user,
                         BindingResult result, Model model) {
-
-        try {
-            request.login(user.getUserId(), user.getPassword());
-        } catch (ServletException e) {
-            e.printStackTrace();
-        }
-        System.err.println(HelperFunctions.ObjectToJsonString(request.getUserPrincipal()));
 
         if (result.hasErrors()) {
             return "global/login";
