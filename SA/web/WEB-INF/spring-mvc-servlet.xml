@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       ">
+
+    <mvc:annotation-driven />
+
+    <context:component-scan base-package="org.lsh.controller"/>
+    <context:component-scan base-package="org.lsh.service"/>
+
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+
+    <bean id="hibernateUtils" class="org.lsh.util.db.HibernateUtils" scope="singleton"/>
+
+    <bean id="errors" class="org.lsh.utils.MessageQueue" scope="session"/>
+
+
+
+
+    <bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mydb"/>
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    </bean>
+
+    <bean id="sf" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" scope="singleton">
+        <property name="packagesToScan" value="org.lsh.model"/>
+        <property name="dataSource" ref="ds"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.cache.use_second_level_cache">false</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/mydb</prop>
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
+
+</beans>
